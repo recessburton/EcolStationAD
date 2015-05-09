@@ -43,6 +43,7 @@ implementation{
 	volatile bool sendBusy = FALSE;
 	
 	typedef nx_struct CTPMsg{
+		nx_int8_t datatype;
 		nx_uint32_t ADtime;
 		nx_int16_t data;
 	}CTPMsg;
@@ -70,6 +71,7 @@ implementation{
 	
 	event void TelosbADSensor.readADDone(error_t err, uint16_t data){
 		CTPMsg* msg = (CTPMsg*)call Send.getPayload(&packet, sizeof(CTPMsg));
+		msg -> datatype = 0x01;	//0x01土壤湿度，0x02雨量筒中断. (后续可扩展)
 		msg -> ADtime = ADtime;
 		msg -> data = data;
 		call Leds.led2On();
