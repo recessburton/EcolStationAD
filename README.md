@@ -20,7 +20,10 @@ Description：
 	注意，采用本程序的节点只做非根节点运行.
 	
 Logs：
-	V1.2 加入时钟同步,CTPMsg结构体加入采样时间的信息.
+	V1.3 加入时钟同步,CTPMsg结构体加入采样时间的信息.
+
+BS version:
+	BSCTPTest V0.3
 
 	
 Known Bugs: 
