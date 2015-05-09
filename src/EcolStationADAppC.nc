@@ -29,13 +29,15 @@ implementation{
 	components new CollectionSenderC(0xee);
 	components ADSensorC;
 	components new TimerMilliC();
+	components TelosbTimeSyncNodesC;
 	
-	App.Boot                         -> MainC;
-	App.RadioControl        -> ActiveMessageC;
-	App.RoutingControl    -> Collector;
-	App.Leds                         -> LedsC;
-	App.Timer                       -> TimerMilliC;
-	App.Send                        -> CollectionSenderC;
-	App.Receive                   -> Collector.Receive[0xee];
-	App.TelosbADSensor  -> ADSensorC;
+	App.Boot                                     -> MainC;
+	App.RadioControl                    -> ActiveMessageC;
+	App.RoutingControl                -> Collector;
+	App.Leds                                     -> LedsC;
+	App.Timer                                   -> TimerMilliC;
+	App.Send                                    -> CollectionSenderC;
+	App.Receive                               -> Collector.Receive[0xee];
+	App.TelosbADSensor              -> ADSensorC;
+	App.TelosbTimeSyncNodes -> TelosbTimeSyncNodesC;
 }

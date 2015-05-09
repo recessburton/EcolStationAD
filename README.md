@@ -1,6 +1,6 @@
 Author:YTC 
 Mail:recessburton@gmail.com
-Created Time: 2015.5.8
+Created Time: 2015.5.9
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,7 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 Description：
 	Telosb 土壤湿度传感器AD采集程序，使用了CTP，与雨量筒中断采集混合数据传输.
 	注意，采用本程序的节点只做非根节点运行.
-	后续版本：加入时钟同步，改写CTPMsg结构体，加入采样时间的信息.
+	
+Logs：
+	V1.2 加入时钟同步,CTPMsg结构体加入采样时间的信息.
 
 	
 Known Bugs: 

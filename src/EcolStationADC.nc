@@ -31,19 +31,24 @@ module EcolStationADC{
 		interface Receive;
 		interface Timer<TMilli>;
 		interface TelosbADSensor;
+		interface TelosbTimeSyncNodes;
 	}
 }
 implementation{
 	
 	message_t packet;
 	
+	uint32_t ADtime = 0;
+	
 	volatile bool sendBusy = FALSE;
 	
 	typedef nx_struct CTPMsg{
+		nx_uint32_t ADtime;
 		nx_int16_t data;
 	}CTPMsg;
 	
 	event void Boot.booted(){
+		call TelosbTimeSyncNodes.Sync();
 		call RadioControl.start();	
 	}
 	
@@ -65,6 +70,7 @@ implementation{
 	
 	event void TelosbADSensor.readADDone(error_t err, uint16_t data){
 		CTPMsg* msg = (CTPMsg*)call Send.getPayload(&packet, sizeof(CTPMsg));
+		msg -> ADtime = ADtime;
 		msg -> data = data;
 		call Leds.led2On();
 		if(call Send.send(&packet, sizeof(CTPMsg)) != SUCCESS)
@@ -81,8 +87,12 @@ implementation{
 	}
 	
 	event message_t* Receive.receive(message_t* msg, void* payload, uint8_t len){
-		call Leds.led1Toggle();
 		return msg;	
 	}
 	
+
+	event void TelosbTimeSyncNodes.SyncDone(uint32_t RealTime){
+		ADtime = RealTime;
+		call Leds.led1Toggle();
+	}
 }
