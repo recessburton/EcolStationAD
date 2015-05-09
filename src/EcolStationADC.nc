@@ -21,6 +21,7 @@
  **/
 
 #include <Timer.h>
+#include "EcolStationAD.h"
 module EcolStationADC{
 	uses{
 		interface Boot;
@@ -39,14 +40,9 @@ implementation{
 	message_t packet;
 	
 	uint32_t ADtime = 0;
+	uint32_t id = 0;
 	
 	volatile bool sendBusy = FALSE;
-	
-	typedef nx_struct CTPMsg{
-		nx_int8_t datatype;
-		nx_uint32_t ADtime;
-		nx_int16_t data;
-	}CTPMsg;
 	
 	event void Boot.booted(){
 		call TelosbTimeSyncNodes.Sync();
@@ -71,9 +67,15 @@ implementation{
 	
 	event void TelosbADSensor.readADDone(error_t err, uint16_t data){
 		CTPMsg* msg = (CTPMsg*)call Send.getPayload(&packet, sizeof(CTPMsg));
-		msg -> datatype = 0x01;	//0x01土壤湿度，0x02雨量筒中断. (后续可扩展)
-		msg -> ADtime = ADtime;
-		msg -> data = data;
+	
+		msg -> datatype         = 0x01;	
+		msg -> id                       = ++ id;
+		msg -> nodeid             = TOS_NODE_ID;
+		msg -> temperature  = 0xFFFF;
+		msg -> humidity         = 0xFFFF;
+		msg -> eventtime       = ADtime;
+		msg -> addata             = data;
+		
 		call Leds.led2On();
 		if(call Send.send(&packet, sizeof(CTPMsg)) != SUCCESS)
 			call Leds.led0On();
