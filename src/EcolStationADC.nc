@@ -38,8 +38,6 @@ module EcolStationADC{
 implementation{
 	
 	message_t packet;
-	
-	uint32_t ADtime = 0;
 	uint32_t id = 0;
 	
 	volatile bool sendBusy = FALSE;
@@ -73,7 +71,7 @@ implementation{
 		msg -> nodeid             = TOS_NODE_ID;
 		msg -> temperature  = 0xFFFF;
 		msg -> humidity         = 0xFFFF;
-		msg -> eventtime       = ADtime;
+		msg -> eventtime       = call TelosbTimeSyncNodes.getTime();
 		msg -> addata             = data;
 		
 		call Leds.led2On();
@@ -96,7 +94,6 @@ implementation{
 	
 
 	event void TelosbTimeSyncNodes.SyncDone(uint32_t RealTime){
-		ADtime = RealTime;
 		call Leds.led1Toggle();
 	}
 }

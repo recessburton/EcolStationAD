@@ -114,5 +114,10 @@ implementation {
 		call AMControl.start();
 		return TRUE;
 	}
+	
+	command uint32_t TelosbTimeSyncNodes.getTime(){
+		uint32_t time = call BaseTime.get();
+		return  time + offset	;
+	}
 
 }
