@@ -20,6 +20,7 @@ Description：
 	注意，采用本程序的节点只做非根节点运行.
 	
 Logs：
+	V1.8 对应新版本BS做了调整。
 	V1.7 调整了CTPMsg格式，更加普适化
 	V1.6 调用了新的TelosbTimeSync接口，修正了时间获取方式。
 	V1.5 调整CTPMsg结构，与雨量筒数据格式统一。
@@ -27,7 +28,7 @@ Logs：
 	V1.3 加入时钟同步,CTPMsg结构体加入采样时间的信息.
 
 BS version:
-	BSCTPTest V0.3
+	BSCTPTest V1.0
 
 	
 Known Bugs: 
