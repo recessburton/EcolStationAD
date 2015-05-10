@@ -69,10 +69,9 @@ implementation{
 		msg -> datatype         = 0x01;	
 		msg -> id                       = ++ id;
 		msg -> nodeid             = TOS_NODE_ID;
-		msg -> temperature  = 0xFFFF;
-		msg -> humidity         = 0xFFFF;
+		msg -> data1                = 0xFFFF;
+		msg -> data2                = data;
 		msg -> eventtime       = call TelosbTimeSyncNodes.getTime();
-		msg -> addata             = data;
 		
 		call Leds.led2On();
 		if(call Send.send(&packet, sizeof(CTPMsg)) != SUCCESS)

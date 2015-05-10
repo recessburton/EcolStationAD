@@ -33,7 +33,6 @@ module TelosbTimeSyncNodesP {
 	uses interface SplitControl as AMControl;
 	uses interface Receive;
 	uses interface LocalTime<TMilli> as BaseTime;
-	uses interface Leds;
 
 }
 implementation {
@@ -104,7 +103,7 @@ implementation {
 				offset = btrpkg->realtime - call BaseTime.get();
 			}
 			else {
-				call Leds.led2Toggle();
+				;
 			}
 		}
 		return msg;
