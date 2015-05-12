@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 Description：
 	Telosb 土壤湿度传感器AD采集程序，使用了CTP，与雨量筒中断采集混合数据传输.
 	注意，采用本程序的节点只做非根节点运行.
+	经过实际测试，在基站115200波特率下，本节点每20ms产生一个数据包（即基站处850B/s）的速率
+	为不丢包的极限速率。
 	
 Logs：
 	V1.8 对应新版本BS做了调整。
