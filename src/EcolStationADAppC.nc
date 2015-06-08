@@ -30,6 +30,7 @@ implementation{
 	components ADSensorC;
 	components new TimerMilliC();
 	components TelosbTimeSyncNodesC;
+	components EcolStationNeighbourC;
 	
 	App.Boot                                     -> MainC;
 	App.RadioControl                    -> ActiveMessageC;
@@ -40,4 +41,5 @@ implementation{
 	App.Receive                               -> Collector.Receive[0xee];
 	App.TelosbADSensor              -> ADSensorC;
 	App.TelosbTimeSyncNodes -> TelosbTimeSyncNodesC;
+	App.EcolStationNeighbour -> EcolStationNeighbourC;
 }

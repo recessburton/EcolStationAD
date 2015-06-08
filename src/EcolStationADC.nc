@@ -33,6 +33,7 @@ module EcolStationADC{
 		interface Timer<TMilli>;
 		interface TelosbADSensor;
 		interface TelosbTimeSyncNodes;
+		interface EcolStationNeighbour;
 	}
 }
 implementation{
@@ -45,6 +46,7 @@ implementation{
 	event void Boot.booted(){
 		call TelosbTimeSyncNodes.Sync();
 		call RadioControl.start();	
+		call EcolStationNeighbour.startNei();
 	}
 	
 	event void RadioControl.startDone(error_t err){
