@@ -32,6 +32,9 @@ implementation{
 	components TelosbTimeSyncNodesC;
 	components EcolStationNeighbourC;
 	
+	//LPL
+	components CC2420ActiveMessageC as LplRadio;
+	
 	App.Boot                                     -> MainC;
 	App.RadioControl                    -> ActiveMessageC;
 	App.RoutingControl                -> Collector;
@@ -42,4 +45,6 @@ implementation{
 	App.TelosbADSensor              -> ADSensorC;
 	App.TelosbTimeSyncNodes -> TelosbTimeSyncNodesC;
 	App.EcolStationNeighbour -> EcolStationNeighbourC;
+	//LPL
+	App.LowPowerListening -> LplRadio;
 }

@@ -34,6 +34,8 @@ module EcolStationADC{
 		interface TelosbADSensor;
 		interface TelosbTimeSyncNodes;
 		interface EcolStationNeighbour;
+		//LPL
+		interface LowPowerListening;
 	}
 }
 implementation{
@@ -46,6 +48,7 @@ implementation{
 	event void Boot.booted(){
 		call TelosbTimeSyncNodes.Sync();
 		call RadioControl.start();	
+		call LowPowerListening.setLocalWakeupInterval(512);
 		call EcolStationNeighbour.startNei();
 	}
 	
