@@ -202,12 +202,12 @@ implementation {
 
 	event message_t * Receive.receive(message_t * msg, void * payload,uint8_t len) {
 		int i;
-		if(len == sizeof(NeighbourMsg) && busy == FALSE) {
+		if(len == sizeof(NeighbourMsg)) {
 			NeighbourMsg * btrpkt = (NeighbourMsg * ) payload;
 			if(btrpkt->dstid == 0xFF){	//接到其它节点发的hello包，回ack包
 				ackMsgSend(btrpkt->sourceid);
 			}
-			else if ( (btrpkt->dstid - TOS_NODE_ID) == 0) {	//接到的是自己的回包，计算链路质量，判断邻居资格
+			else if ( (btrpkt->dstid - TOS_NODE_ID) == 0 && busy == FALSE) {	//接到的是自己的回包，计算链路质量，判断邻居资格
 				addSet(btrpkt->sourceid);
 				estLinkQuality(btrpkt->sourceid);
 			}else{	//其它包，丢弃

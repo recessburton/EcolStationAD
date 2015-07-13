@@ -22,6 +22,7 @@ Description：
 	为不丢包的极限速率。
 	
 Logs：
+	V2.2 LPL设置成1s，（1024）
 	V2.1 更新邻居发现组件为V0.4版本。
 	V2.0 无线功率调只最大，payload增至35字节（通过makefile），加入LPL机制。
 	V1.9 集成了EcolStationNeighour邻居建立接口，建立邻居关系，并CTP发送。

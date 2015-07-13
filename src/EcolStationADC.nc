@@ -48,7 +48,7 @@ implementation{
 	event void Boot.booted(){
 		call TelosbTimeSyncNodes.Sync();
 		call RadioControl.start();	
-		call LowPowerListening.setLocalWakeupInterval(512);
+		call LowPowerListening.setLocalWakeupInterval(1024);
 		call EcolStationNeighbour.startNei();
 	}
 	
