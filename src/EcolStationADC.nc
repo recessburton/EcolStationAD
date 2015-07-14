@@ -57,7 +57,7 @@ implementation{
 			call RadioControl.start();
 		}else{
 			call RoutingControl.start();
-			call Timer.startPeriodic(2000);
+			call Timer.startPeriodic(30720);
 		}
 	}
 	

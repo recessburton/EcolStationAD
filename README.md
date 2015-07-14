@@ -22,6 +22,8 @@ Description：
 	为不丢包的极限速率。
 	
 Logs：
+	V2.5 更新邻居发现组件为V0.6版本,调整链路质量计算方法
+	V2.4 AD获取间隔调整为30秒。
 	V2.3 更新邻居发现组件为V0.5版本。
 	V2.2 LPL设置成1s，（1024）
 	V2.1 更新邻居发现组件为V0.4版本。
@@ -35,7 +37,7 @@ Logs：
 	V1.3 加入时钟同步,CTPMsg结构体加入采样时间的信息.
 
 BS version:
-	BSCTPTest V1.7
+	BSCTPTest V1.9
 
 	
 Known Bugs: 
