@@ -30,12 +30,15 @@ module EcolStationADC{
 		interface Send;
 		interface Leds;
 		interface Receive;
-		interface Timer<TMilli>;
+		interface Timer<TMilli> as Timer1;
+		interface Timer<TMilli> as Timer2;
 		interface TelosbADSensor;
 		interface TelosbTimeSyncNodes;
 		interface EcolStationNeighbour;
 		//LPL
 		interface LowPowerListening;
+		
+		interface Reset;
 	}
 }
 implementation{
@@ -46,6 +49,7 @@ implementation{
 	volatile bool sendBusy = FALSE;
 	
 	event void Boot.booted(){
+		call Timer2.startOneShot(7372800);	//两小时重启一次
 		call TelosbTimeSyncNodes.Sync();
 		call RadioControl.start();	
 		call LowPowerListening.setLocalWakeupInterval(1024);
@@ -57,11 +61,11 @@ implementation{
 			call RadioControl.start();
 		}else{
 			call RoutingControl.start();
-			call Timer.startPeriodic(30720);
+			call Timer1.startPeriodic(30720);
 		}
 	}
 	
-	event void Timer.fired(){
+	event void Timer1.fired(){
 		call TelosbADSensor.readAD();
 	}
 	
@@ -100,4 +104,10 @@ implementation{
 	event void TelosbTimeSyncNodes.SyncDone(uint32_t RealTime){
 		call Leds.led1Toggle();
 	}
+	
+	event void Timer2.fired(){
+		call RadioControl.stop();	
+		call Reset.reset();
+	}
+	
 }

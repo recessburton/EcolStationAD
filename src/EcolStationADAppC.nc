@@ -28,18 +28,21 @@ implementation{
 	components CollectionC as Collector;
 	components new CollectionSenderC(0xee);
 	components ADSensorC;
-	components new TimerMilliC();
+	components new TimerMilliC() as Timer1;
+	components new TimerMilliC() as Timer2;
 	components TelosbTimeSyncNodesC;
 	components EcolStationNeighbourC;
 	
 	//LPL
 	components CC2420ActiveMessageC as LplRadio;
 	
+	components ResetC;
+	
 	App.Boot                                     -> MainC;
 	App.RadioControl                    -> ActiveMessageC;
 	App.RoutingControl                -> Collector;
 	App.Leds                                     -> LedsC;
-	App.Timer                                   -> TimerMilliC;
+	App.Timer1                                   -> Timer1;
 	App.Send                                    -> CollectionSenderC;
 	App.Receive                               -> Collector.Receive[0xee];
 	App.TelosbADSensor              -> ADSensorC;
@@ -47,4 +50,8 @@ implementation{
 	App.EcolStationNeighbour -> EcolStationNeighbourC;
 	//LPL
 	App.LowPowerListening -> LplRadio;
+	
+	App.Timer2 -> Timer2;
+	App.Reset -> ResetC;
+	
 }

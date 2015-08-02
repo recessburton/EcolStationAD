@@ -53,7 +53,7 @@ implementation {
 	} TimeSyncMsg;
 
 	event void Timer0.fired() {
-		if( ! busy) {
+		if( (!busy) && (SyncTime != 0) ) {
 			TimeSyncMsg * btrpkt = (TimeSyncMsg * )(call Packet1.getPayload(&pkt, NULL));
 					btrpkt->nodeid = TOS_NODE_ID;
 			btrpkt->index = Depth;	//本节点深度号
@@ -67,7 +67,7 @@ implementation {
 
 	event void AMControl.startDone(error_t err) {
 		if(err == SUCCESS) {
-			call Timer0.startPeriodic(1024 * 5);
+			call Timer0.startPeriodic(1024 * 30);
 		}
 		else {
 			call AMControl.start();
@@ -101,6 +101,7 @@ implementation {
 			{
 				local_time = call BaseTime.get();
 				offset = btrpkg->realtime - call BaseTime.get();
+				signal Timer0.fired();			//马上发布同步信息
 			}
 			else {
 				;
