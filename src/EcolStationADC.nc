@@ -70,6 +70,11 @@ implementation{
 	}
 	
 	event void RadioControl.stopDone(error_t err){	
+		if(err != SUCCESS){
+			call RadioControl.stop();	
+		}else{
+			call Reset.reset();
+		}
 	}
 	
 	event void TelosbADSensor.readADDone(error_t err, uint16_t data){
@@ -107,7 +112,6 @@ implementation{
 	
 	event void Timer2.fired(){
 		call RadioControl.stop();	
-		call Reset.reset();
 	}
 	
 }
