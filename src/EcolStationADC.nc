@@ -36,7 +36,7 @@ module EcolStationADC{
 		interface TelosbTimeSyncNodes;
 		interface EcolStationNeighbour;
 		//LPL
-		interface LowPowerListening;
+	//	interface LowPowerListening;
 		
 		interface Reset;
 	}
@@ -52,7 +52,7 @@ implementation{
 		call Timer2.startOneShot(7372800);	//两小时重启一次
 		call TelosbTimeSyncNodes.Sync();
 		call RadioControl.start();	
-		call LowPowerListening.setLocalWakeupInterval(1024);
+		//call LowPowerListening.setLocalWakeupInterval(1024);
 		call EcolStationNeighbour.startNei();
 	}
 	

@@ -50,6 +50,9 @@ implementation {
 	volatile bool busy = FALSE;
 	uint8_t helloMsgCount = 0;
 	uint8_t neighbourNumIndex = 0;//邻居数目，>从0开始!<<<<<<
+	uint16_t temper = 0;
+	uint16_t humid = 0;
+	uint16_t light = 0;
 	uint16_t battery = 0;
 
 	event void AMControl.startDone(error_t err) {
@@ -200,6 +203,10 @@ implementation {
 		convertNX();	
 		ctpmsg -> neighbourNum = neighbourNumIndex;
 		ctpmsg -> nodeid = (nx_uint8_t)TOS_NODE_ID;
+		call TelosbBuiltinSensors.readAllSensors();
+		ctpmsg -> temp   = temper;
+		ctpmsg -> humid = humid;
+		ctpmsg -> light     = light;
 		ctpmsg -> power = battery;
 		memcpy(ctpmsg -> neighbourSet, nx_neighbourSet, sizeof(nx_neighbourSet));
 		call Send.send(&packet, sizeof(NeiMsg));
@@ -253,7 +260,7 @@ implementation {
 	}
 	
 	event void TelosbBuiltinSensors.readBatteryDone(error_t err, uint16_t data){
-		battery = data;
+		// TODO Auto-generated method stub
 	}
 
 	event void TelosbBuiltinSensors.readHumidityDone(error_t err, uint16_t data){
@@ -268,14 +275,16 @@ implementation {
 		// TODO Auto-generated method stub
 	}
 
-	event void TelosbBuiltinSensors.readAllDone(error_t errT, uint16_t temp, error_t errH, uint16_t humi, error_t errL, uint16_t ligh, error_t errB, uint16_t batt){
-		// TODO Auto-generated method stub
+	event void TelosbBuiltinSensors.readAllDone(error_t errT, uint16_t tem, error_t errH, uint16_t humi, error_t errL, uint16_t ligh, error_t errB, uint16_t batt){
+				temper = tem;
+				humid = humi;
+				light = ligh;
+				battery = batt;
 	}
 
 	command error_t EcolStationNeighbour.startNei(){
 		call AMControl.start();
 		call RadioControl.start();
-		call TelosbBuiltinSensors.readBattery();
 		return TRUE;
 	}
 }

@@ -34,7 +34,7 @@ implementation{
 	components EcolStationNeighbourC;
 	
 	//LPL
-	components CC2420ActiveMessageC as LplRadio;
+	//components CC2420ActiveMessageC as LplRadio;
 	
 	components ResetC;
 	
@@ -49,7 +49,7 @@ implementation{
 	App.TelosbTimeSyncNodes -> TelosbTimeSyncNodesC;
 	App.EcolStationNeighbour -> EcolStationNeighbourC;
 	//LPL
-	App.LowPowerListening -> LplRadio;
+	//App.LowPowerListening -> LplRadio;
 	
 	App.Timer2 -> Timer2;
 	App.Reset -> ResetC;
