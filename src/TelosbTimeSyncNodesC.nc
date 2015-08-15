@@ -29,7 +29,6 @@ configuration TelosbTimeSyncNodesC {
 implementation {
 	components TelosbTimeSyncNodesP as App;
 	components new TimerMilliC() as Timer0;
-	components ActiveMessageC;
 	components new AMSenderC(177) as AM1;
 	components new AMReceiverC(177);
 
@@ -41,7 +40,6 @@ implementation {
 	App.Packet1->AM1;
 	App.AMPacket1->AM1;
 	App.AM1->AM1;
-	App.AMControl->ActiveMessageC;
 	App.Receive->AMReceiverC;
 
 	App.BaseTime->BaseTime;

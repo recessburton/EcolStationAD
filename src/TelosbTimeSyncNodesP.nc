@@ -30,7 +30,6 @@ module TelosbTimeSyncNodesP {
 	uses interface Packet as Packet1;
 	uses interface AMPacket as AMPacket1;
 	uses interface AMSend as AM1;
-	uses interface SplitControl as AMControl;
 	uses interface Receive;
 	uses interface LocalTime<TMilli> as BaseTime;
 
@@ -63,18 +62,6 @@ implementation {
 				busy = TRUE;
 			}
 		}
-	}
-
-	event void AMControl.startDone(error_t err) {
-		if(err == SUCCESS) {
-			call Timer0.startPeriodic(1024 * 30);
-		}
-		else {
-			call AMControl.start();
-		}
-	}
-
-	event void AMControl.stopDone(error_t err) {
 	}
 
 	event void AM1.sendDone(message_t * msg, error_t error) {
@@ -111,7 +98,7 @@ implementation {
 	}
 
 	command error_t TelosbTimeSyncNodes.Sync() {			//本接口提供的可调用的命令
-		call AMControl.start();
+		call Timer0.startPeriodic(1024 * 30);
 		return TRUE;
 	}
 	

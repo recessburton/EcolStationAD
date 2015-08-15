@@ -32,11 +32,12 @@ module EcolStationADC{
 		interface Receive;
 		interface Timer<TMilli> as Timer1;
 		interface Timer<TMilli> as Timer2;
+		interface RootControl;
 		interface TelosbADSensor;
 		interface TelosbTimeSyncNodes;
 		interface EcolStationNeighbour;
 		//LPL
-	//	interface LowPowerListening;
+	    interface LowPowerListening;
 		
 		interface Reset;
 	}
@@ -52,7 +53,7 @@ implementation{
 		call Timer2.startOneShot(7372800);	//两小时重启一次
 		call TelosbTimeSyncNodes.Sync();
 		call RadioControl.start();	
-		//call LowPowerListening.setLocalWakeupInterval(1024);
+		call LowPowerListening.setLocalWakeupInterval(50);
 		call EcolStationNeighbour.startNei();
 	}
 	
@@ -111,6 +112,8 @@ implementation{
 	}
 	
 	event void Timer2.fired(){
+		call EcolStationNeighbour.restart();
+		call RoutingControl.stop();
 		call RadioControl.stop();	
 	}
 	
