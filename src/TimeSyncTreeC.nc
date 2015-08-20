@@ -20,28 +20,34 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>
  **/
 
-#include <Timer.h>
+ 
+#include "TimeSyncTree.h"
 
-configuration TelosbTimeSyncNodesC {
-	provides interface TelosbTimeSyncNodes;
+generic configuration TimeSyncTreeC( uint32_t period ) {
+
+	provides interface TimeSyncTree;
 }
 
 implementation {
-	components TelosbTimeSyncNodesP as App;
-	components new TimerMilliC() as Timer0;
-	components new AMSenderC(177) as AM1;
-	components new AMReceiverC(177);
 
-	components HilTimerMilliC as BaseTime;
+	components new TimeSyncTreeP(period);
 
-	TelosbTimeSyncNodes = App.TelosbTimeSyncNodes;
+	TimeSyncTree = TimeSyncTreeP.TimeSyncTree;
 
-	App.Timer0->Timer0;
-	App.Packet1->AM1;
-	App.AMPacket1->AM1;
-	App.AM1->AM1;
-	App.Receive->AMReceiverC;
+	components new TimerMilliC() as SyncTimer;
+	TimeSyncTreeP.PeriodicSyncTimer     -> SyncTimer;
+	TimeSyncTreeP.DelayedBroadcastTimer -> SyncTimer;
 
-	App.BaseTime->BaseTime;
+	components HilTimerMilliC as LocalTimer;
+	TimeSyncTreeP.LocalTime -> LocalTimer;
+			
+	components new AMSenderC(AM_TIME_SYNC_MSG);
+	components new AMReceiverC(AM_TIME_SYNC_MSG);
 
+	TimeSyncTreeP.Packet   -> AMSenderC;
+	TimeSyncTreeP.AMSend   -> AMSenderC;
+	TimeSyncTreeP.Receive  -> AMReceiverC;
+
+	components RandomC;
+	TimeSyncTreeP.Random -> RandomC;
 }

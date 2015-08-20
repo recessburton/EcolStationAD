@@ -30,7 +30,7 @@ implementation{
 	components ADSensorC;
 	components new TimerMilliC() as Timer1;
 	components new TimerMilliC() as Timer2;
-	components TelosbTimeSyncNodesC;
+	components new TimeSyncTreeC(TIME_SYNC_PERIOD);
 	components EcolStationNeighbourC;
 	
 	//LPL
@@ -38,21 +38,21 @@ implementation{
 	
 	components ResetC;
 	
-	App.Boot                                     -> MainC;
-	App.RadioControl                    -> ActiveMessageC;
-	App.RoutingControl                -> Collector;
-	App.RootControl                      -> Collector;
-	App.Leds                                     -> LedsC;
-	App.Timer1                                   -> Timer1;
-	App.Send                                    -> CollectionSenderC;
-	App.Receive                               -> Collector.Receive[0xee];
-	App.TelosbADSensor              -> ADSensorC;
-	App.TelosbTimeSyncNodes -> TelosbTimeSyncNodesC;
+	App.Boot                 -> MainC;
+	App.RadioControl         -> ActiveMessageC;
+	App.RoutingControl       -> Collector;
+	App.RootControl          -> Collector;
+	App.Leds                 -> LedsC;
+	App.Timer1               -> Timer1;
+	App.Send                 -> CollectionSenderC;
+	App.Receive              -> Collector.Receive[0xee];
+	App.TelosbADSensor       -> ADSensorC;
+	App.TimeSyncTree  -> TimeSyncTreeC;
 	App.EcolStationNeighbour -> EcolStationNeighbourC;
 	//LPL
-	App.LowPowerListening -> LplRadio;
+	App.LowPowerListening    -> LplRadio;
 	
 	App.Timer2 -> Timer2;
-	App.Reset -> ResetC;
+	App.Reset  -> ResetC;
 	
 }

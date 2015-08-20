@@ -34,7 +34,7 @@ module EcolStationADC{
 		interface Timer<TMilli> as Timer2;
 		interface RootControl;
 		interface TelosbADSensor;
-		interface TelosbTimeSyncNodes;
+		interface TimeSyncTree;
 		interface EcolStationNeighbour;
 		//LPL
 	    interface LowPowerListening;
@@ -51,7 +51,7 @@ implementation{
 	
 	event void Boot.booted(){
 		call Timer2.startOneShot(7372800);	//两小时重启一次
-		call TelosbTimeSyncNodes.Sync();
+		call TimeSyncTree.startTimeSync();
 		call RadioControl.start();	
 		call LowPowerListening.setLocalWakeupInterval(50);
 		call EcolStationNeighbour.startNei();
@@ -81,12 +81,12 @@ implementation{
 	event void TelosbADSensor.readADDone(error_t err, uint16_t data){
 		CTPMsg* msg = (CTPMsg*)call Send.getPayload(&packet, sizeof(CTPMsg));
 	
-		msg -> datatype         = 0x01;	
-		msg -> id                       = ++ id;
-		msg -> nodeid             = TOS_NODE_ID;
-		msg -> data1                = 0xFFFF;
-		msg -> data2                = data;
-		msg -> eventtime       = call TelosbTimeSyncNodes.getTime();
+		msg -> datatype   = 0x01;	
+		msg -> id         = ++ id;
+		msg -> nodeid     = TOS_NODE_ID;
+		msg -> data1      = 0xFFFF;
+		msg -> data2      = data;
+		msg -> eventtime  = call TimeSyncTree.getNow();
 		
 		call Leds.led2On();
 		if(call Send.send(&packet, sizeof(CTPMsg)) != SUCCESS)
@@ -107,8 +107,8 @@ implementation{
 	}
 	
 
-	event void TelosbTimeSyncNodes.SyncDone(uint32_t RealTime){
-		call Leds.led1Toggle();
+	event error_t TimeSyncTree.startTimeSyncDone(uint32_t globalTime){
+		return TRUE;
 	}
 	
 	event void Timer2.fired(){
