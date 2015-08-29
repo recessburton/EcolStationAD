@@ -22,6 +22,7 @@ Description：
 	为不丢包的极限速率。
 	
 Logs：
+	V3.2 更新邻居发现组件为V1.1版本,加入了链路RSSI和LQI值
 	V3.1 更新时间同步组件
 	V3.0 更新邻居发现组件为V1.0版本,重新定义链路质量评估错误，修改了多个Bug.LPL定义为50ms
 	V2.9 更新邻居发现组件为V0.8版本,修正快速排序中的错误。
@@ -43,7 +44,7 @@ Logs：
 	V1.3 加入时钟同步,CTPMsg结构体加入采样时间的信息.
 
 BS version:
-	BSCTPTest V2.6
+	BSCTPTest V2.7
 
 	
 Known Bugs: 
